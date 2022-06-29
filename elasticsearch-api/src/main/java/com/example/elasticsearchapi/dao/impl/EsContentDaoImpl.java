@@ -217,7 +217,8 @@ public class EsContentDaoImpl implements IEsContentDao {
 
 
     @Override
-    public List<ContentDTO> search(String index, String routing, int pageNum, int pageSize, Map<String, Object> map, String condition, String... orderFieldType) throws IOException {
+    public List<ContentDTO> search(String index, String routing, int pageNum, int pageSize, Map<String, Object> map, String condition,
+                                   List<String> orderFieldType) throws IOException {
 
         // 构建HighlightBuilder
         HighlightBuilder highlightBuilder = new HighlightBuilder();
@@ -262,7 +263,7 @@ public class EsContentDaoImpl implements IEsContentDao {
         // 默认排序，降序
         SortOrder sortOrder = SortOrder.DESC;
         // 判断排序字段，并处理
-        if (orderFieldType != null && orderFieldType.length > 0) {
+        if (orderFieldType != null && orderFieldType.size() > 0) {
             for (String item : orderFieldType) {
                 String orderField = item.split(":")[0];
                 String order = item.split(":")[1];

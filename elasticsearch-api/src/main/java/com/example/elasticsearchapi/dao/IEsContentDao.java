@@ -96,7 +96,8 @@ public interface IEsContentDao {
      * @param map 隐含检索条件，如 labelText:achievements
      * @param condition 搜索条件
      * @param orderFieldType 排序字段和排序方式，如 createTime:asc
-     * @return
+     * @return 成功返回资源数据列表，失败返回null
      */
-    List<ContentDTO> search(String index, String routing, int pageNum, int pageSize, Map<String, Object> map, String condition, String... orderFieldType) throws IOException;
+    List<ContentDTO> search(String index, String routing, int pageNum, int pageSize, Map<String, Object> map, String condition,
+                            List<String> orderFieldType) throws IOException;
 }

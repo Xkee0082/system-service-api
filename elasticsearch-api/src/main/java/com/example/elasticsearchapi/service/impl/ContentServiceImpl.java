@@ -337,4 +337,29 @@ public class ContentServiceImpl implements IContentService {
             return ResultDTO.failed("检索数据异常：" + e);
         }
     }
+
+    @Override
+    public ResultDTO<List<ContentDTO>> search(String index, String routing, int pageNum, int pageSize, Map<String, Object> condition,
+                                   String keyword, List<String> orderFieldType) {
+
+        try {
+            List<ContentDTO> search = esContentDao.search(index, routing, pageNum, pageSize, condition, keyword, orderFieldType);
+            if (search != null || search.size() > 0) {
+                return new ResultDTO<>(
+                        ResultCodeEnum.SUCCESS.getCode(),
+                        ResultCodeEnum.SUCCESS.getMessage(),
+                        search
+                );
+            } else {
+                return new ResultDTO<>(
+                        ResultCodeEnum.DATA_NOT_FOUND.getCode(),
+                        ResultCodeEnum.DATA_NOT_FOUND.getMessage(),
+                        new ArrayList<>()
+                );
+            }
+        } catch (IOException e) {
+            log.error("检索数据异常：", e);
+            return ResultDTO.failed("检索数据异常：" + e);
+        }
+    }
 }

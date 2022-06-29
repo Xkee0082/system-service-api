@@ -3,6 +3,7 @@ package com.example.elasticsearchapi.service;
 import com.example.elasticsearchapi.entity.ContentDTO;
 import com.example.elasticsearchapi.entity.ResultDTO;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -117,5 +118,21 @@ public interface IContentService {
      * @return
      */
     ResultDTO<ContentDTO> getDataByConditionMap(String index, String routing, Map<String, String> conditionMap);
+
+    /**
+     *
+     * 根据条件检索数据，实现分页和按条件排序
+     *
+     * @param index 索引名称
+     * @param routing 路由
+     * @param pageNum 页码，从1开始
+     * @param pageSize 每页长度，默认10
+     * @param condition 隐含检索条件，如 labelText:achievements
+     * @param keyword 搜索条件
+     * @param orderFieldType 排序字段和排序方式，如 createTime:asc
+     * @return 成功返回资源数据列表，没有检索到数据返回空集合
+     */
+    ResultDTO<List<ContentDTO>> search(String index, String routing, int pageNum, int pageSize, Map<String, Object> condition,
+                                       String keyword, List<String> orderFieldType);
 
 }

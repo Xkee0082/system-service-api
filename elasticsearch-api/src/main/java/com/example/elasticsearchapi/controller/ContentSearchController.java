@@ -1,6 +1,7 @@
 package com.example.elasticsearchapi.controller;
 
 import com.example.elasticsearchapi.entity.ContentDTO;
+import com.example.elasticsearchapi.entity.ContentQueryParam;
 import com.example.elasticsearchapi.entity.ResultDTO;
 import com.example.elasticsearchapi.service.IContentService;
 import io.swagger.annotations.Api;
@@ -113,5 +114,23 @@ public class ContentSearchController {
     @PostMapping("/getDataByConditionMap")
     ResultDTO<ContentDTO> getDataByConditionMap(String index, String routing, @RequestBody Map<String, String> conditionMap) {
         return contentService.getDataByConditionMap(index, routing, conditionMap);
+    }
+
+    /**
+     * 根据条件分页检索数据
+     */
+    @ApiOperation(value = "根据条件分页检查数据")
+    @PostMapping("/search")
+    ResultDTO<List<ContentDTO>> search(@RequestBody ContentQueryParam contentQueryParam) {
+
+        String index = contentQueryParam.getIndex();
+        String routing = contentQueryParam.getRouting();
+        int pageNum = contentQueryParam.getPageNum();
+        int pageSize = contentQueryParam.getPageSize();
+        Map<String, Object> condition = contentQueryParam.getCondition();
+        String keyword = contentQueryParam.getKeyword();
+        List<String> orderFiledType = contentQueryParam.getOrderFiledType();
+
+        return contentService.search(index, routing, pageNum, pageSize, condition, keyword, orderFiledType);
     }
 }
